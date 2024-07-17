@@ -1,8 +1,9 @@
 import './App.css';
-import React, {  useEffect, useState } from 'react';
+import React, {  useEffect } from 'react';
 import { useSelector, useDispatch} from 'react-redux';
 import { changeStock, changeStocksName, changeStockPrices, changePopUpState} from './actions.ts';
 import {IRootState} from './reducers/stockReducer.ts'
+import { getWebsocketConnection } from './webSocket.ts';
 
 
 function App() {
@@ -11,15 +12,15 @@ function App() {
   const stockPrices = useSelector((state: IRootState) => state.stockPrices);
   const isPopupOpen = useSelector((state: IRootState) => state.isPopUpOpen);
   const dispatch = useDispatch();
-  const [ws, setWs] = useState(React.useRef(null));
+  const ws = getWebsocketConnection();
 
   const handleSelectChange = async(event) => {
     const selectedOption = event.target.value;
     dispatch(changePopUpState(false));
     dispatch(changeStock(selectedOption));
-    if (ws.current && ws.current.readyState === WebSocket.OPEN) {
-      await ws.current.send(selectedOption);
-      ws.current.onmessage = (event) => {
+    if (ws && ws.readyState === WebSocket.OPEN) {
+       ws.send(selectedOption);
+      ws.onmessage = (event) => {
         dispatch(changeStockPrices(JSON.parse(event.data)));
       };
     }
@@ -32,33 +33,7 @@ function App() {
   const onClose = () => {
     dispatch(changePopUpState(false));
   }
- 
 
-  useEffect(() => {
-       try {
-            ws.current = new WebSocket(`http://127.0.0:8000/`);
-
-            // Connection opened
-            ws.current.onopen = () => {
-              console.log('WebSocket connected');
-            };
-
-            ws.current.onclose = () => {
-              console.log('WebSocket disconnected');
-            };
-            setWs(ws);
-       }
-       catch(error) {
-        console.log(error)
-        alert(error.message);
-       }
-       return () => {
-        if(ws.current && ws.current.readyState === WebSocket.OPEN)
-          {
-            ws.current.close();
-          }
-       }
-  }, [])
 
  
   useEffect(() => {
