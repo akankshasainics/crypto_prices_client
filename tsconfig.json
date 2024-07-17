@@ -3,12 +3,14 @@
       "moduleDetection": "force",
       "jsx": "react",
       "pretty": true,
-      "module": "ES6",
+      "module": "NodeNext",
+      "allowSyntheticDefaultImports": true,
+      "moduleResolution": "NodeNext"
     },
     "include": [
-        "./lib/**/*"
+        "./src"
     ],
     "exclude": [
-        "node_modules"
+        "./node_modules"
     ]
 }

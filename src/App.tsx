@@ -1,27 +1,28 @@
 import './App.css';
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { changeStock, changeStocksName, changeStockPrices, changePopUpState } from './actions.ts';
-import { IRootState } from './reducers/stockReducer.ts'
-import { getWebsocketConnection } from './webSocket.ts';
+import { changeStock, changeStocksName, changeStockPrices, changePopUpState } from './actions';
+import { IRootState } from './reducers/stockReducer'
+import { getWebsocketConnection } from './webSocket';
+import { Dispatch, UnknownAction } from 'redux';
 
 
 function App() {
-  const selectedOption = useSelector((state: IRootState) => state.stockName);
-  const stocks = useSelector((state: IRootState) => state.stocks);
-  const stockPrices = useSelector((state: IRootState) => state.stockPrices);
-  const isPopupOpen = useSelector((state: IRootState) => state.isPopUpOpen);
-  const dispatch = useDispatch();
-  const ws = getWebsocketConnection();
+  const selectedOption: string = useSelector((state: IRootState) => state.stockName);
+  const stocks: [string] = useSelector((state: IRootState) => state.stocks);
+  const stockPrices: [{ name: string, rate: number }] = useSelector((state: IRootState) => state.stockPrices);
+  const isPopupOpen: boolean = useSelector((state: IRootState) => state.isPopUpOpen);
+  const dispatch: Dispatch<UnknownAction> = useDispatch();
+  const ws: WebSocket = getWebsocketConnection();
 
-  const handleSelectChange = async (event) => {
-    const selectedOption = event.target.value;
+
+  const handleSelectChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedOption: string = event.target.value;
     dispatch(changePopUpState(false));
     dispatch(changeStock(selectedOption));
     if (ws && ws.readyState === WebSocket.OPEN) {
       ws.send(selectedOption);
       ws.onmessage = (event) => {
-        console.log(event.data);
         dispatch(changeStockPrices(JSON.parse(event.data)));
       };
     }
@@ -35,16 +36,14 @@ function App() {
     dispatch(changePopUpState(false));
   }
 
-
-
   useEffect(() => {
     const fetchStocks = async () => {
       try {
-        const response = await fetch('http://localhost:8000/coins/');
+        const response: Response = await fetch('http://localhost:8000/coins/');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-        const data = await response.json();
+        const data: any = await response.json();
         dispatch(changeStocksName(data));
       } catch (error) {
         alert(error.message);

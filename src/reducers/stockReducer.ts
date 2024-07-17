@@ -5,7 +5,7 @@ const initialState = {
     isPopUpOpen: false,
 }
 
-const stockReducer = (state = initialState, action) => {
+const stockReducer = (state = initialState, action: { type: any; payload: any }) => {
     switch (action.type) {
         case 'CHANGE_STOCK':
             return {
