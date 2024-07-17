@@ -2,13 +2,14 @@ import './App.css';
 import React, {  useEffect, useState } from 'react';
 import { useSelector, useDispatch} from 'react-redux';
 import { changeStock, changeStocksName, changeStockPrices, changePopUpState} from './actions.ts';
+import {IRootState} from './reducers/stockReducer.ts'
 
 
 function App() {
-  const selectedOption = useSelector((state) => state.stockName);
-  const stocks =  useSelector((state) => state.stocks);
-  const stockPrices = useSelector((state) => state.stockPrices);
-  const isPopupOpen = useSelector((state) => state.isPopUpOpen);
+  const selectedOption = useSelector((state: IRootState) => state.stockName);
+  const stocks =  useSelector((state: IRootState) => state.stocks);
+  const stockPrices = useSelector((state: IRootState) => state.stockPrices);
+  const isPopupOpen = useSelector((state: IRootState) => state.isPopUpOpen);
   const dispatch = useDispatch();
   const [ws, setWs] = useState(React.useRef(null));
 
@@ -57,9 +58,6 @@ function App() {
             ws.current.close();
           }
        }
-
-    
-       
   }, [])
 
  

@@ -34,3 +34,4 @@ const stockReducer = (state = initialState, action) =>{
 }
 
 export default stockReducer;
+export type IRootState = ReturnType<typeof stockReducer>
