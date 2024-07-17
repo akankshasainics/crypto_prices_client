@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
-import stockReducer from './reducers/stockReducer.ts';
-import { loadState, saveState } from './localStorageHelper.ts';
+import stockReducer from './reducers/stockReducer';
+import { loadState, saveState } from './localStorageHelper';
 
 const persistedState = loadState();
 
@@ -11,6 +11,6 @@ export const store = configureStore(
     },
 )
 
-store.subscribe(() => { saveState(store.getState())});
-  
+store.subscribe(() => { saveState(store.getState()) });
+
 

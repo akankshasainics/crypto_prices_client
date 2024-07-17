@@ -5,19 +5,18 @@ const initialState = {
     isPopUpOpen: false,
 }
 
-const stockReducer = (state = initialState, action) =>{
-    switch(action.type)
-    {
-        case 'CHANGE_STOCK' : 
-        return {
-            ...state,
-            stockName: action.payload
-        }
+const stockReducer = (state = initialState, action) => {
+    switch (action.type) {
+        case 'CHANGE_STOCK':
+            return {
+                ...state,
+                stockName: action.payload
+            }
         case 'CHANGE_POPUP_STATE':
-        return {
-            ...state,
-            isPopUpOpen: action.payload
-        }
+            return {
+                ...state,
+                isPopUpOpen: action.payload
+            }
         case 'SET_STOCKS':
             return {
                 ...state,
@@ -29,7 +28,7 @@ const stockReducer = (state = initialState, action) =>{
                 stockPrices: action.payload
             }
         default:
-        return state;
+            return state;
     }
 }
 

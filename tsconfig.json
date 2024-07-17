@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+      "moduleDetection": "force",
+      "jsx": "react",
+      "pretty": true,
+      "module": "ES6",
+    },
+    "include": [
+        "./lib/**/*"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

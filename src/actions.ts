@@ -1,18 +1,18 @@
-const changeStock = (stockName) => {
+export const changeStock = (stockName: string) => {
     return {
-      type: 'CHANGE_STOCK',
-      payload: stockName
+        type: 'CHANGE_STOCK',
+        payload: stockName
     };
-  };
+};
 
- const changeStocksName = (data) => {
+export const changeStocksName = (data: [string]) => {
     return {
         type: 'SET_STOCKS',
         payload: data
     }
 }
 
-const changeStockPrices = (data) => {
+export const changeStockPrices = (data: [object]) => {
     return {
         type: 'CHANGE_STOCK_PRICES',
         payload: data
@@ -20,18 +20,11 @@ const changeStockPrices = (data) => {
 }
 
 
-const changePopUpState = (state) => {
+export const changePopUpState = (state: boolean) => {
     return {
         type: 'CHANGE_POPUP_STATE',
         payload: state
     }
 }
 
-  
-module.exports = {
-    changeStock,
-    changeStocksName,
-    changeStockPrices,
-    changePopUpState
-}
-  
+
